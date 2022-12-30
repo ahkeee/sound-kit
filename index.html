@@ -11,19 +11,19 @@
     <div class="soundbox">
         <div data-key="87" class="key">
             <kbd>W</kbd>
-            <span>Water</span>
+            <span class="sound">Water</span>
         </div>
         <div data-key="70" class="key">
             <kbd>F</kbd>
-            <span>Fire</span>
+            <span class="sound">Fire</span>
         </div>
         <div data-key="73" class="key">
             <kbd>I</kbd>
-            <span>Wind</span>
+            <span class="sound">Wind</span>
         </div>
         <div data-key="69" class="key">
             <kbd>E</kbd>
-            <span>Earth</span>
+            <span class="sound">Earth</span>
         </div>
     </div>
     <audio data-key="87" src="./sound/mixkit-sea-water-splash-1198.wav"></audio>
@@ -31,4 +31,25 @@
     <audio data-key="73" src="./sound/mixkit-storm-wind-2411.wav"></audio>
     <audio data-key="69" src="./sound/mixkit-writing-on-a-stone-3195.wav"></audio>
 </body>
+<script>
+    function playSound(e) {
+        const audio = document.querySelector(`audio[data-key = "${e.keyCode}"]`);
+        const key = document.querySelector(`.key[data-key = "${e.keyCode}"]`);
+        if (!audio) return;
+        audio.currentTime = 0;
+        audio.play();
+        key.classList.add('playing');
+    }
+
+    function removeTransition(e) {
+        if (e.propertyName !== 'transform') return;
+        this.classList.remove('playing');
+    }
+
+    const keys = document.querySelectorAll('.key');
+    keys.forEach(key => key.addEventListener('transitionend', removeTransition));
+    window.addEventListener('keydown', playSound);
+
+    
+</script>
 </html>
